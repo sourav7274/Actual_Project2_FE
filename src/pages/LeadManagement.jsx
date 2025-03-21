@@ -35,9 +35,9 @@ function LeadManagement() {
 
   return (
     <>
-      <div className="bg-gray-100 min-h-screen grid grid-cols-3">
-  <SideBar />
-  {status == "loading" ? <p>Loading</p> : <><div className="col-span-2 bg-white shadow-lg p-10 rounded-lg m-5">
+      <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white">
+    <SideBar />
+   {<><div className="flex-1 p-6 bg-gray-800 rounded-lg shadow-md"> 
     <h1 className="text-3xl font-bold text-gray-800 mb-5">Lead Management</h1>
     <section className="bg-blue-100 p-6 rounded-lg shadow-md">
       <p className="text-lg font-semibold text-gray-700">Lead Name: <span className="text-blue-700">{currentLead.name}</span></p>

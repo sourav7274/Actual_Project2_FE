@@ -13,8 +13,6 @@ export  const leadStatuses = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 
 export  const priority = ['High', 'Medium', 'Low']
 
 
-
-
 function App() {
   const dispatch = useDispatch()
   const {leads} = useSelector(state => state.leads)
@@ -51,61 +49,86 @@ function App() {
 
   return (
     <>
-      <div className='bg-black min-h-screen grid grid-cols-3 text-white'>
-        <SideBar/>
-        <div className='col-span-2 p-10'>
-          <p className='text-3xl'>All Leads</p>
-          <div className='grid grid-cols-4 gap-4 mt-5'>
-            {leads.map((lead) => (
-              <div className='col-span-1'>
-                <Link onClick={() => dispatch(getLeadById(lead._id))} to={`/leadManagement/${lead._id}`}>{lead.name}</Link>
-              </div>
-              ))}
-          </div>
-          <section>
-            <p className='text-2xl mt-9'>Lead Status</p>
-            <ul className='mt-5 '>
-              <li><p className='text-xl'>New: {leadStatus.New}</p></li>
-              <li><p className='text-xl'>Conacted: {leadStatus.Contacted}</p></li>
-              <li><p className='text-xl'>Qualified: {leadStatus.Qualified}</p></li>
-            </ul>
-          </section>
-          <section className="mt-5 flex flex-col">
-              <p className="text-2xl font-semibold mb-3">Quick Filters</p>
-              <div className="flex gap-3">
-                <button 
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition"
-                  onClick={() => handleFilter("New")}
-                >
-                  New
-                </button>
-                <button 
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-md text-white transition"
-                  onClick={() => handleFilter("Contacted")}
-                >
-                  Contacted
-                </button>
-                <button onClick={() => setFilter([])} className='bg-red-500 px-4 py-2 rounded-md hover:bg-red-700'>Reset</button>
-              </div>
-            {filterData.length > 0 &&  <div className="mt-4 bg-gray-800 p-4 rounded-lg">
-                {filterData.length > 0 ? (
-                  filterData.map((lead) => (
-                    <div key={lead.id} className="p-2 border-b border-gray-600">
-                      {lead.name}
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-400">No leads found</p>
-                )}
-              </div>}
-            </section>
-
-          <button className='bg-gray-700 px-4 py-3 mt-3 rounded hover:bg-gray-500 ' onClick={() => setAddLead(!addLeadDIs)}>Add New Lead</button>
-          {addLeadDIs && 
-            
-            <NewLead/>
-          }
+  <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white">
+    <SideBar />
+    <div className="flex-1 p-6 bg-gray-800 rounded-lg shadow-md"> 
+    <p className="text-3xl font-semibold text-gray-100">All Leads</p>
+    <div className="grid grid-cols-4 gap-4 mt-5">
+      {leads.map((lead) => (
+        <div key={lead._id} className="col-span-1">
+          <Link
+            onClick={() => dispatch(getLeadById(lead._id))}
+            to={`/leadManagement/${lead._id}`}
+            className="block px-4 py-3 bg-gray-700 text-white text-center rounded-lg shadow-md transition hover:bg-indigo-500 hover:scale-105"
+          >
+            {lead.name}
+          </Link>
         </div>
+      ))}
+    </div>
+    <div className="flex gap-6 mt-9">
+  {/* Left Sidebar (Lead Status + Filters) */}
+  <div className="w-[320px] flex flex-col gap-6">
+    <section className="p-5 bg-gray-800 rounded-lg shadow-md text-white">
+      <p className="text-xl font-semibold border-b border-gray-700 pb-2">Lead Status</p>
+      <ul className="mt-3 space-y-2">
+        {["New", "Contacted", "Qualified"].map((status) => (
+          <li key={status} className="flex justify-between px-4 py-2 bg-gray-700 rounded-md">
+            <p className="text-sm">{status}</p>
+            <span className="text-sm font-semibold bg-gray-600 px-3 py-1 rounded">
+              {leadStatus[status]}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section className="p-5 bg-gray-800 rounded-lg shadow-md text-white">
+      <p className="text-2xl font-semibold mb-3">Quick Filters</p>
+      <div className="flex gap-3">
+        {["New", "Contacted"].map((status) => (
+          <button 
+            key={status}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition"
+            onClick={() => handleFilter(status)}
+          >
+            {status}
+          </button>
+        ))}
+        <button 
+          onClick={() => setFilter([])} 
+          className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-700 text-white transition"
+        >
+          Reset
+        </button>
+      </div>
+      {filterData.length > 0 && (
+        <div className="mt-4 bg-gray-700 p-4 rounded-lg">
+          {filterData.map((lead) => (
+            <div key={lead.id} className="p-2 border-b border-gray-600 last:border-0">
+              {lead.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  </div>
+
+  {/* Right Side (Add New Lead) */}
+  <div className="flex-1">
+    <button className='bg-gray-700 px-4 py-3 rounded hover:bg-gray-500 w-l' onClick={() => setAddLead(!addLeadDIs)}>
+      Add New Lead
+    </button>
+    
+    {addLeadDIs && (
+      <div className="mt-4 p-6 bg-gray-800 rounded-lg shadow-md">
+        <NewLead />
+      </div>
+    )}
+  </div>
+</div>
+
+     </div>
       </div>
     </>
   )

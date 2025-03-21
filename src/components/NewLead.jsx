@@ -52,72 +52,97 @@ export const NewLead = () =>{
           },[])
 
     return(
-        <section>
-            <div className='mt-4'>
-                        <p className='text-center text-2xl'>Add New Lead</p>
-                        <form onSubmit={(e) => handleForm(e)}>
-                            <div className='flex flex-row mt-4'>
-                            <label className='text-xl mt-2'>Lead Name:</label>
-                            <input
-                            className="w-full rounded-lg max-w-2xl ms-5 border-gray-200 p-3 text-sm"
-                            placeholder="Lead Name"
-                            type="name"
-                            onChange={handleChange}
-                            value={formData.name}
-                            name='name'
-                            id="name"
-                            />
-                        </div>
-                        <div className='flex flex-row mt-4'>
-                            <label className='text-xl mt-2'>Lead Source:</label>
-                            <select value={formData.source} name="source" onChange={handleChange} className='bg-black text-amber-100 ms-5'>
-                            <option value=""></option>
-                            {leadSource.map((source) => <option value={source}>{source}</option>)}
-                            </select>
-                        </div>
-                        <div className='flex flex-row mt-4'>
-                            <label className='text-xl mt-2'>Sale Agent:</label>
-                            <select value={formData.salesAgent} name='salesAgent' onChange={ handleChange} className='bg-black text-amber-100 ms-5'>
-                                <option value=""></option>
-                                {saleAgent.map((source) => <option value={source._id}>{source.name}</option>)}
-                            </select>
-                        </div>
-                        <div className='flex flex-row mt-4'>
-                            <label className='text-xl mt-2'>Lead Status:</label>
-                            <select value={formData.status} name='status' onChange={handleChange} className='bg-black text-amber-100 ms-5'>
-                                <option value=""></option>
-                                {leadStatuses.map((source) => <option value={source}>{source}</option>)}
-                            </select>
-                        </div>
-                        <div className='flex flex-row mt-4'>
-                            <label className='text-xl mt-2'>Priority:</label>
-                            <select value={formData.priority} name='priority' onChange={handleChange} className='bg-black text-amber-100 ms-5'>
-                                <option value=""></option>
-                                {priority.map((source) => <option value={source}>{source}</option>)}
-                            </select>
-                        </div>
-                        <div className='flex flex-row mt-4'>
-                            <label className='text-xl mt-2'>Time to Close:</label>
-                            <input
-                            className="w-full rounded-lg max-w-2xl ms-5 border-gray-200 p-3 text-sm"
-                            placeholder="Number Of Days"
-                            type="number"
-                            id="time"
-                            name="timeToClose"
-                            value={formData.timeToClose}
-                            onChange={ handleChange}
-                            />
-                        </div>
-                        <div className='flex flex-row mt-4'>
-                            <label className='text-xl mt-2'>Tags</label>
-                            <select name='tags' value={formData.tags} onChange={ handleChange} className='bg-black text-amber-100 ms-5'>
-                                <option value=""></option>
-                                {tags.map((source) => <option value={source.name}>{source.name}</option>)}
-                            </select>
-                        </div>
-                        <button className='bg-red-400 py-2 px-4 rounded-sm mt-5' type='submit'>Create Lead</button>
-                        </form>                               
-            </div>
-        </section>
+    <>
+    <section className="my-6 p-6 bg-gray-800 rounded-lg shadow-lg text-white max-w-3xl mx-auto">
+  <p className="text-center text-3xl font-bold mb-6">Add New Lead</p>
+  <form onSubmit={handleForm} className="space-y-5">
+    {/* Lead Name */}
+    <div>
+      <label className="block text-lg mb-1">Lead Name:</label>
+      <input
+        className="w-full rounded-lg border-gray-300 p-3 text-sm focus:ring-2 focus:ring-red-400"
+        placeholder="Enter lead name"
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+      />
+    </div>
+
+    {/* Lead Source */}
+    <div>
+      <label className="block text-lg mb-1">Lead Source:</label>
+      <select className="w-full bg-black text-amber-100 p-3 rounded-lg focus:ring-2 focus:ring-red-400" name="source" value={formData.source} onChange={handleChange}>
+        <option value="">Select Source</option>
+        {leadSource.map((source) => (
+          <option key={source} value={source}>{source}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Sales Agent */}
+    <div>
+      <label className="block text-lg mb-1">Sales Agent:</label>
+      <select className="w-full bg-black text-amber-100 p-3 rounded-lg focus:ring-2 focus:ring-red-400" name="salesAgent" value={formData.salesAgent} onChange={handleChange}>
+        <option value="">Select Agent</option>
+        {saleAgent.map((agent) => (
+          <option key={agent._id} value={agent._id}>{agent.name}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Lead Status */}
+    <div>
+      <label className="block text-lg mb-1">Lead Status:</label>
+      <select className="w-full bg-black text-amber-100 p-3 rounded-lg focus:ring-2 focus:ring-red-400" name="status" value={formData.status} onChange={handleChange}>
+        <option value="">Select Status</option>
+        {leadStatuses.map((status) => (
+          <option key={status} value={status}>{status}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Priority */}
+    <div>
+      <label className="block text-lg mb-1">Priority:</label>
+      <select className="w-full bg-black text-amber-100 p-3 rounded-lg focus:ring-2 focus:ring-red-400" name="priority" value={formData.priority} onChange={handleChange}>
+        <option value="">Select Priority</option>
+        {priority.map((p) => (
+          <option key={p} value={p}>{p}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Time to Close */}
+    <div>
+      <label className="block text-lg mb-1">Time to Close:</label>
+      <input
+        className="w-full rounded-lg border-gray-300 p-3 text-sm focus:ring-2 focus:ring-red-400"
+        placeholder="Enter number of days"
+        type="number"
+        name="timeToClose"
+        value={formData.timeToClose}
+        onChange={handleChange}
+      />
+    </div>
+
+    {/* Tags */}
+    <div>
+      <label className="block text-lg mb-1">Tags:</label>
+      <select className="w-full bg-black text-amber-100 p-3 rounded-lg focus:ring-2 focus:ring-red-400" name="tags" value={formData.tags} onChange={handleChange}>
+        <option value="">Select Tag</option>
+        {tags.map((tag) => (
+          <option key={tag.name} value={tag.name}>{tag.name}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Submit Button */}
+    <button className="bg-red-500 py-3 px-6 rounded-lg mt-5 w-full hover:bg-red-600 transition font-semibold text-lg" type="submit">
+      Create Lead
+    </button>
+  </form>
+</section>
+    </>
     )
 }

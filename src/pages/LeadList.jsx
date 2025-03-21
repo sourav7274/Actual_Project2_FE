@@ -104,72 +104,129 @@ const LeadList = () =>{
 
     return(
         <>
-            <div className="grid grid-cols-3">
-                <SideBar/>
-                <div className="col-span-2 min-h-screen bg-gray-700 text-gray-200 p-10">
-                   <p className="text-5xl">Lead List</p>
-                   {filterData.length > 0 && <>
-                   <section>
-                   {filterData.map((lead) => (<div className="bg-green-700 my-3 p-3 flex flex-row">
-                        <p> {lead.name}</p>
-                        <p className="mx-6">{lead.status}</p>
-                        <p>Agent Name: {lead.salesAgent.name}</p>
-                    </div>))}
-                   </section>
-                   <section>
-                    <p className="text-3xl mt-5 mb-3"> Filter/ Sort / Add Lead </p>
-                        <section id="filter">
-                        <div className="flex flex-row">
-                            <div className="me-10">
-                                <label>Filter By Status</label>
-                                <select onChange={(e) => handleStatusChange(e)}  className="bg-gray-700 ms-4">
-                                    <option value="all">All</option>
-                                    {leadStatuses.map((status) => <option value={status}>{status}</option>)}
-                                </select>
-                            </div>
-                            <div className="">
-                                <label>Filter By Agents</label>
-                                <select onChange={hanldeAgantChange} className="bg-gray-700 ms-4">
-                                    <option value="all">All</option>
-                                    {saleAgent && saleAgent.map((agent) => <option value={agent._id}>{agent.name}</option>)}
-                                </select>
-                            </div>
-                        </div>
-                        </section>  
-                        <section id="sort" className="mt-5">
-                        <div className="flex flex-row">
-                            <div className="me-10">
-                                <label>Sort By Priority</label>
-                                <select onChange={(handlePriorityChange)}  className="bg-gray-700 ms-4">
-                                    <option value="all">All</option>
-                                    {priority.map((status) => <option value={status}>{status}</option>)}
-                                </select>
-                            </div>
-                            <div >
-                                <label>Sort By Time To Close</label>
-                                <select onChange={handleDays}  className="bg-gray-700 ms-4">
-                                    <option value="all">Default</option>
-                                    <option value="0-3">0 - 3 days </option>
-                                    <option value="4-7"> 4 days - 7 days </option>
-                                    <option value="8+"> 8 days + </option>                    
-                                </select>
-                            </div>
-                        </div>
-                        </section> 
-                        <section className="mt-4">
-                            <div className="flex flex-row">
-                            <button onClick={() => setAgentDis(!leadDis)} className="bg-green-400 px-4 py-2 rounded-md hover:bg-green-700">Add New Lead</button>
-                            <button onClick={() => setFilterData(leads)} className="bg-yellow-400 text-black px-4 ms-6 py-2 rounded-md hover:bg-yellow-700">Clear All FIlters</button>
-                            </div>                           
-                            {leadDis && <NewLead/>
-                          }
-                        </section>                
-                   </section>
-                   </>}
-                </div>
+        <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white">
+          <SideBar />
+          
+          {/* Main Content */}
+          <div className="flex-1 p-8">
+            <p className="text-5xl font-bold mb-6">Lead List</p>
+      
+            {filterData.length > 0 && (
+              <>
+              {/* Filter / Sort / Add Lead Section */}
+              <section className="mt-10">
+  <p className="text-3xl font-semibold mb-6 text-white">Filter / Sort / Add Lead</p>
 
-            </div>
-        </>
+  {/* Filters */}
+  <section id="filter" className="bg-gray-800 p-6 rounded-xl shadow-lg">
+    <h3 className="text-lg font-semibold mb-4 text-gray-300">Filter Leads</h3>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label className="block text-sm font-medium mb-2 text-gray-400">Filter By Status</label>
+        <select
+          onChange={handleStatusChange}
+          className="bg-gray-700 text-white w-full p-3 rounded-lg shadow-inner focus:ring-2 focus:ring-blue-400 transition"
+        >
+          <option value="all">All</option>
+          {leadStatuses.map((status) => (
+            <option key={status} value={status}>{status}</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-2 text-gray-400">Filter By Agents</label>
+        <select
+          onChange={hanldeAgantChange}
+          className="bg-gray-700 text-white w-full p-3 rounded-lg shadow-inner focus:ring-2 focus:ring-blue-400 transition"
+        >
+          <option value="all">All</option>
+          {saleAgent?.map((agent) => (
+            <option key={agent._id} value={agent._id}>{agent.name}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+  </section>
+
+  {/* Sorting */}
+  <section id="sort" className="bg-gray-800 p-6 mt-6 rounded-xl shadow-lg">
+    <h3 className="text-lg font-semibold mb-4 text-gray-300">Sort Leads</h3>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label className="block text-sm font-medium mb-2 text-gray-400">Sort By Priority</label>
+        <select
+          onChange={handlePriorityChange}
+          className="bg-gray-700 text-white w-full p-3 rounded-lg shadow-inner focus:ring-2 focus:ring-blue-400 transition"
+        >
+          <option value="all">All</option>
+          {priority.map((status) => (
+            <option key={status} value={status}>{status}</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-2 text-gray-400">Sort By Time To Close</label>
+        <select
+          onChange={handleDays}
+          className="bg-gray-700 text-white w-full p-3 rounded-lg shadow-inner focus:ring-2 focus:ring-blue-400 transition"
+        >
+          <option value="all">Default</option>
+          <option value="0-3">0 - 3 days</option>
+          <option value="4-7">4 - 7 days</option>
+          <option value="8+">8+ days</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  {/* Action Buttons */}
+  <section className="my-6 flex flex-wrap gap-4">
+    <button
+      onClick={() => setAgentDis(!leadDis)}
+      className="bg-green-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md transition transform hover:scale-105"
+    >
+      Add New Lead
+    </button>
+
+    <button
+      onClick={() => setFilterData(leads)}
+      className="bg-yellow-400 hover:bg-yellow-600 text-black px-6 py-3 rounded-lg shadow-md transition transform hover:scale-105"
+    >
+      Clear All Filters
+    </button>
+  </section>
+
+  {leadDis && <NewLead />}
+</section>
+
+
+                {/* Lead List Section */}
+                <section className="space-y-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {filterData.map((lead) => (
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col gap-2 border border-gray-700 hover:border-gray-500 transition duration-300">
+        <h3 className="text-xl font-semibold text-white">{lead.name}</h3>
+        <p className="text-sm text-gray-400">
+          <span className="font-medium text-gray-300">Status:</span> {lead.status}
+        </p>
+        <p className="text-sm text-gray-400">
+          <span className="font-medium text-gray-300">Agent:</span> {lead.salesAgent.name}
+        </p>
+      </div>
+    ))}
+  </div>
+                </section>
+
+      
+                
+              </>
+            )}
+          </div>
+        </div>
+      </>
+      
     )
 }
 
