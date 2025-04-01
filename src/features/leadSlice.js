@@ -25,11 +25,19 @@ export const getLeadById = createAsyncThunk('get/IdLead',async(id) =>{
 })
 
 export const addComment = createAsyncThunk("add/comment",async ({id,data}) =>{
-    console.log(id,data)
+    // console.log(id,data)
     const response = await axios.post(`http://localhost:3000/leads/${id}/comment`,data)
 
     const result = await response.data
-    console.log(result)
+    // console.log(result)
+})
+
+export const getLeadCommentById = createAsyncThunk('get/comments',async (id) =>{
+    const response = await axios.get(`http://localhost:3000/leads/${id}/comment`)
+
+    const result = await response.data
+    // console.log(result.comments)
+    return result.comments
 })
 
 const leadSlice = createSlice({
@@ -38,7 +46,8 @@ const leadSlice = createSlice({
         leads:[],
         status: "idle",
         error: null,
-        currentLead:{}
+        currentLead:{},
+        comments:[]
     },
     reducers:{},
     extraReducers: (builder) =>{
@@ -55,9 +64,17 @@ const leadSlice = createSlice({
         builder.addCase(addLead.fulfilled,(state) => {
             state.status = "success"
         })
-        builder.addCase(getLeadById.fulfilled,(state,action) =>{
-            state.currentLead = action.payload
+        builder.addCase(getLeadById.pending,(state) =>{
+            state.status = "loading"
         })
+        builder.addCase(getLeadById.fulfilled,(state,action) =>{
+            state.currentLead = action.payload,
+            state.status = "success"
+        })
+        builder.addCase(getLeadCommentById.fulfilled,(state,action) =>{
+            state.comments = action.payload
+        })
+    
     }
 })
 

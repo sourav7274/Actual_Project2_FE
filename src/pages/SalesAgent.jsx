@@ -82,41 +82,67 @@ const SalesAgent = () => {
     }
    
     return(
-        <div className="grid grid-cols-3">
-            <SideBar/>
-            <div className="col-span-2 p-10 min-h-screen text-white bg-gray-700">
-             <p className="text-5xl">Agent Name: {currentAgent.name}</p>
-             <p className="text-3xl mt-7">Leads :-</p>
-             <section className="mt-4">
-                {agentLeads.map((lead) => (<div className="flex flex-row">
-                    <p>{lead.name}</p>
-                    <p className="ms-5">{lead.status}</p>
-                </div>))}
-             </section >
-             <section>
-                <div className="flex flex-row">
-                    <label>Filters: </label>
-                    <select onChange={(e) => handleStatusChange(e)}  className="bg-gray-700 ms-4">
-                        <option value="all">All</option>
-                        {leadStatuses.map((status) => <option value={status}>{status}</option>)}
-                    </select>
-                    <select onChange={(handlePriorityChange)}  className="bg-gray-700 ms-4">
-                        <option value="all">All</option>
-                        {priority.map((status) => <option value={status}>{status}</option>)}
-                    </select>
-                </div>
-                <div className="flex flex-row">
-                     <label>Sort By Time To Close</label>
-                        <select onChange={handleDays}  className="bg-gray-700 ms-4">
-                            <option value="all">Default</option>
-                            <option value="0-3">0 - 3 days </option>
-                            <option value="4-7"> 4 days - 7 days </option>
-                            <option value="8+"> 8 days + </option>                    
-                        </select>
-                    </div>
-             </section>
+        <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white">
+        <SideBar />
+      
+        {/* Main Content */}
+        <div className="flex-1 p-8 space-y-8">
+          
+          {/* Agent Name */}
+          <p className="text-5xl font-bold text-blue-400">Agent Name: {currentAgent.name}</p>
+          <section className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+              
+              {/* Filters */}
+              <div className="flex items-center space-x-4">
+                <label className="text-lg font-semibold">Filters:</label>
+                <select onChange={handleStatusChange} className="bg-gray-900 p-2 rounded-lg border border-gray-700">
+                  <option value="all">All Statuses</option>
+                  {leadStatuses.map((status) => (
+                    <option key={status} value={status}>{status}</option>
+                  ))}
+                </select>
+      
+                <select onChange={handlePriorityChange} className="bg-gray-900 p-2 rounded-lg border border-gray-700">
+                  <option value="all">All Priorities</option>
+                  {priority.map((status) => (
+                    <option key={status} value={status}>{status}</option>
+                  ))}
+                </select>
+              </div>
+      
+              {/* Sort By Time to Close */}
+              <div className="flex items-center space-x-4">
+                <label className="text-lg font-semibold">Sort By Time To Close:</label>
+                <select onChange={handleDays} className="bg-gray-900 p-2 rounded-lg border border-gray-700">
+                  <option value="all">Default</option>
+                  <option value="0-3">0 - 3 days</option>
+                  <option value="4-7">4 - 7 days</option>
+                  <option value="8+">8+ days</option>
+                </select>
+              </div>
+      
             </div>
+          </section>
+          {/* Leads Section */}
+          <section className="mt-7 bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+            <p className="text-3xl font-semibold">Leads:</p>
+            <div className="mt-4 space-y-3">
+              {agentLeads.map((lead) => (
+                <div key={lead.name} className="flex justify-between bg-gray-900 p-4 rounded-lg shadow-md">
+                  <p className="text-lg font-semibold">{lead.name}</p>
+                  <p className="text-gray-400">{lead.status}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+      
+          {/* Filters & Sorting */}
+   
+      
         </div>
+      </div>
+      
     )
 }
 

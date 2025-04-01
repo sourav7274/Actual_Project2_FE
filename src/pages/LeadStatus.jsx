@@ -78,46 +78,66 @@ const LeadStatus = () =>{
     }
 
     return(
-        <div className="grid grid-cols-3">
-            <SideBar/>
-            <div className="col-span-2 min-h-screen bg-amber-600 p-10">
-                <section className="mt-5">
-                    {leadStatuses.map((status)=> (
-                        <section>
-                            <p className="text-5xl">{status}</p>
-                            {filterData.map((lead) => lead.status == status && (
-                                <div className="mt-3 flex flex-row">
-                                    <p >{lead.name}</p>
-                                    <p className="ms-5">{lead.salesAgent.name}</p>
-                                </div>
-                            ))}
-                        </section>
-                    ))}
-                </section>
-                <section className="mt-5">
-                    <div className="flex flex-row">
-                        <label>Filters: </label>
-                        <select onChange={hanldeAgantChange} className=" ms-4">
-                                    <option value="all">All Agents</option>
-                                    {saleAgent && saleAgent.map((agent) => <option value={agent._id}>{agent.name}</option>)}
-                        </select>
-                        <select onChange={(handlePriorityChange)}  className=" ms-4">
-                                    <option value="all">All</option>
-                                    {priority.map((status) => <option value={status}>{status}</option>)}
-                        </select>
-                    </div>
-                    <div >
-                        <label>Sort By Time To Close</label>
-                        <select onChange={handleDays}  className=" ms-4">
-                            <option value="all">Default</option>
-                            <option value="0-3">0 - 3 days </option>
-                            <option value="4-7"> 4 days - 7 days </option>
-                            <option value="8+"> 8 days + </option>                    
-                        </select>
-                    </div>
-                </section>
+        <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white">
+        <SideBar />
+      
+        {/* Main Content */}
+        <div className="flex-1 p-8 space-y-8">
+      
+          {/* Filters & Sorting */}
+          <section className="mt-5 bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+              {/* Filters */}
+              <div className="flex items-center space-x-4">
+                <label className="text-lg font-semibold">Filters:</label>
+                <select onChange={hanldeAgantChange} className="bg-gray-900 p-2 rounded-lg border border-gray-700">
+                  <option value="all">All Agents</option>
+                  {saleAgent && saleAgent.map((agent) => <option key={agent._id} value={agent._id}>{agent.name}</option>)}
+                </select>
+      
+                <select onChange={handlePriorityChange} className="bg-gray-900 p-2 rounded-lg border border-gray-700">
+                  <option value="all">All Priorities</option>
+                  {priority.map((status) => <option key={status} value={status}>{status}</option>)}
+                </select>
+              </div>
+      
+              {/* Sort By Time to Close */}
+              <div className="flex items-center space-x-4">
+                <label className="text-lg font-semibold">Sort By Time To Close:</label>
+                <select onChange={handleDays} className="bg-gray-900 p-2 rounded-lg border border-gray-700">
+                  <option value="all">Default</option>
+                  <option value="0-3">0 - 3 days</option>
+                  <option value="4-7">4 - 7 days</option>
+                  <option value="8+">8+ days</option>
+                </select>
+              </div>
             </div>
+          </section>
+      
+          {/* Lead Status Sections */}
+          <section className="mt-5 space-y-8">
+            {leadStatuses.map((status) => (
+              <section key={status} className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+                <p className="text-3xl font-bold text-blue-400">{status}</p>
+                <div className="mt-3 space-y-3">
+                  {filterData.map(
+                    (lead) =>
+                      lead.status === status && (
+                        <div key={lead.name} className="bg-gray-900 p-4 rounded-lg shadow-md flex justify-between items-center">
+                          <p className="text-lg font-semibold">{lead.name}</p>
+                          <p className="text-gray-400">{lead.salesAgent.name}</p>
+                        </div>
+                      )
+                  )}
+                </div>
+              </section>
+            ))}
+          </section>
+      
         </div>
+      </div>
+      
+      
     )
 }
 

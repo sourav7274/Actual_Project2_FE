@@ -30,39 +30,46 @@ const NewAgent = () =>{
         })
     }
     return(
-        <section>
-            <div>
-            <label htmlFor="name" className="block text-xl mt-4 font-medium text-gray-700 dark:text-gray-200">
-               Name
+        <section className="mt-6 p-6 bg-gray-800 rounded-lg shadow-lg">
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-lg font-medium text-gray-300">
+              Name
             </label>
-
             <input
-                type="text"
-                name="name"
-                value={agentData.name}
-                placeholder="John Doe"
-                onChange={handleChange}
-                className="mt-1 w-full px-4 py-2 rounded-md border-gray-200 shadow-xs sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              type="text"
+              name="name"
+              value={agentData.name}
+              placeholder="John Doe"
+              onChange={handleChange}
+              className="mt-1 w-full px-4 py-2 rounded-md border border-gray-600 shadow-sm bg-gray-900 text-white focus:ring-2 focus:ring-gray-500"
             />
-            </div>
-            <div>
-            <label htmlFor="email" className="block text-xl mt-4 font-medium text-gray-700 dark:text-gray-200">
-                Email
+          </div>
+    
+          <div>
+            <label htmlFor="email" className="block text-lg font-medium text-gray-300">
+              Email
             </label>
-
             <input
-                type="email"
-                name="email"
-                onChange={handleChange}
-                value={agentData.email}
-                placeholder="john@rhcp.com"
-                className="mt-1 w-full px-4 py-2 rounded-md border-gray-200 shadow-xs sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              type="email"
+              name="email"
+              onChange={handleChange}
+              value={agentData.email}
+              placeholder="john@rhcp.com"
+              className="mt-1 w-full px-4 py-2 rounded-md border border-gray-600 shadow-sm bg-gray-900 text-white focus:ring-2 focus:ring-gray-500"
             />
-            </div>
-            <div className="text-center mt-5">
-                <button onClick={handleSubmit} className="text-lg bg-black rounded-md text-white hover:bg-white px-4 py-2 hover:text-black">Create Agent</button>
-            </div>            
-        </section>
+          </div>
+    
+          <div className="flex justify-center mt-5">
+            <button 
+              onClick={handleSubmit} 
+              className="text-lg bg-black border border-gray-600 rounded-md text-white px-6 py-3 transition-all hover:bg-white hover:text-black hover:border-black"
+            >
+              Create Agent
+            </button>
+          </div>
+        </div>
+      </section>
     )
 }
 

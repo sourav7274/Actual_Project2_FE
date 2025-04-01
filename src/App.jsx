@@ -1,12 +1,12 @@
 import SideBar from './components/Sidebar'
 import { useSelector,useDispatch } from 'react-redux'
-import { getAllLeads,getLeadById} from './features/leadSlice'
+import { getAllLeads,getLeadById,getLeadCommentById} from './features/leadSlice'
 import { getSaleAgents } from './features/saleagentSlice'
 import { getTags } from './features/tagSlice'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { NewLead } from './components/NewLead'
-
+import { motion } from 'framer-motion'
 
 export  const leadSource = ['Website', 'Referral', 'Cold Call', 'Advertisement', 'Email', 'Other']
 export  const leadStatuses = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Closed']
@@ -52,17 +52,22 @@ function App() {
   <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white">
     <SideBar />
     <div className="flex-1 p-6 bg-gray-800 rounded-lg shadow-md"> 
-    <p className="text-3xl font-semibold text-gray-100">All Leads</p>
+    <motion.p    initial={{ opacity: 0, scale: 0.9 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.5, ease: "easeOut" }} className="text-3xl font-semibold text-gray-100">All Leads</motion.p>
     <div className="grid grid-cols-4 gap-4 mt-5">
       {leads.map((lead) => (
         <div key={lead._id} className="col-span-1">
-          <Link
-            onClick={() => dispatch(getLeadById(lead._id))}
+          <motion.Link
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            onClick={() => {dispatch(getLeadById(lead._id)),dispatch(getLeadCommentById(lead._id)) }  }
             to={`/leadManagement/${lead._id}`}
             className="block px-4 py-3 bg-gray-700 text-white text-center rounded-lg shadow-md transition hover:bg-indigo-500 hover:scale-105"
           >
             {lead.name}
-          </Link>
+          </motion.Link>
         </div>
       ))}
     </div>

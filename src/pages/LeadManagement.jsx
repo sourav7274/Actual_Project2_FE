@@ -2,19 +2,18 @@ import { useEffect, useState } from 'react'
 import SideBar from '../components/Sidebar'
 import { useSelector,useDispatch } from 'react-redux'
 import { getSaleAgents } from '../features/saleagentSlice'
-import { addComment } from '../features/leadSlice'
-
+import { addComment,getLeadCommentById } from '../features/leadSlice'
+import { FaSpinner } from 'react-icons/fa6'
 
 function LeadManagement() {
 
+
   const dispatch = useDispatch()
-  useEffect(() =>{
-    dispatch(getSaleAgents())
-  },[])
+  
   const {currentLead,status }= useSelector((state) => state.leads)
   // console.log(currentLead)
   const {saleAgent} = useSelector(state => state.saleAgent)
-
+  const comments = useSelector(state => state.leads.comments)
   const [commentData,setCommentData] = useState({
     lead:currentLead._id,
     author:"",
@@ -29,16 +28,31 @@ function LeadManagement() {
   }
 
   const handleCommentSubmit = () =>{
-    console.log(commentData)
+    // console.log(commentData)
     dispatch(addComment({id:currentLead._id,data:commentData}))
+    // setCommentData({
+    //   lead: currentLead._id,
+    //   author: "",
+    //   commentText: ""
+    // });
+   
   }
-
+  // console.log(comments)
+  
+  useEffect(() =>{
+    dispatch(getSaleAgents())
+    dispatch(getLeadCommentById(currentLead._id))
+  },[currentLead])
   return (
     <>
       <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white">
     <SideBar />
-   {<><div className="flex-1 p-6 bg-gray-800 rounded-lg shadow-md"> 
-    <h1 className="text-3xl font-bold text-gray-800 mb-5">Lead Management</h1>
+   {status == "loading" ?<>
+  <div className="flex justify-center items-center min-h-screen w-full">
+    <FaSpinner className="animate-spin text-white text-6xl" />
+  </div>
+  </> : <><div className="flex-1 p-6 bg-gray-800 rounded-lg shadow-md"> 
+    <h1 className="text-3xl font-bold mb-5">Lead Management</h1>
     <section className="bg-blue-100 p-6 rounded-lg shadow-md">
       <p className="text-lg font-semibold text-gray-700">Lead Name: <span className="text-blue-700">{currentLead.name}</span></p>
       <p className="text-lg font-semibold text-gray-700">Sales Agent: <span className="text-blue-700">{currentLead.salesAgent.name}</span></p>
@@ -51,11 +65,20 @@ function LeadManagement() {
     </section>
 
     <section className="mt-8">
-      <h2 className="text-2xl font-bold text-gray-800">Comment Section</h2>
+      <h2 className="text-2xl font-bold ">Comment Section</h2>
+     {comments &&<>
       <div className="bg-gray-200 p-4 mt-3 rounded-lg">
-        <p className="text-gray-700">"Author: - [Date and Time]"</p>
-        <p className="text-gray-700">"Author: - [Date and Time]"</p>
+        {comments.map((comment) => <div>
+          <p className="text-gray-700">
+          <span className="font-semibold">{comment.author.name}</span>
+          <span className="mx-2"> - </span> 
+          <span>"{comment.commentText}"</span>
+          <span className="ml-4 text-gray-500">{new Date(comment.createdAt).toLocaleString()}</span>
+          </p>
+        </div>)}
+       
       </div>
+     </> }
     </section>
 
     <section className="mt-8 bg-white p-6 rounded-lg shadow-md">
@@ -64,7 +87,7 @@ function LeadManagement() {
         name="author" 
         value={commentData.value} 
         onChange={handleChange} 
-        className="border border-gray-300 rounded-lg p-2 w-full mb-3"
+        className="border bg-gray-400 border-gray-300 rounded-lg p-2 w-full mb-3"
       >
         <option value="">Select Sales Agent</option>
         {saleAgent.map((agent) => (
@@ -76,7 +99,7 @@ function LeadManagement() {
         name="commentText" 
         onChange={handleChange} 
         value={commentData.commentText} 
-        className="border border-gray-300 rounded-lg p-2 w-full mb-3"
+        className="border  bg-gray-400 border-gray-300 rounded-lg p-2 w-full mb-3"
       />
       <button 
         onClick={handleCommentSubmit} 
