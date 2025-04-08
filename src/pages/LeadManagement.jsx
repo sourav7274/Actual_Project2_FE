@@ -20,6 +20,15 @@ function LeadManagement() {
     commentText:""
   })
 
+  useEffect(() =>{
+    if(currentLead._id)
+    {
+      setCommentData((pval) =>({
+        ...pval,lead:currentLead._id
+      }))
+    }
+  },[currentLead])
+
   const handleChange = (e) =>{
     const {name,value} = e.target
     setCommentData((pval) =>({
@@ -27,22 +36,22 @@ function LeadManagement() {
     }))
   }
 
-  const handleCommentSubmit = () =>{
+  const handleCommentSubmit = async () =>{
     // console.log(commentData)
-    dispatch(addComment({id:currentLead._id,data:commentData}))
-    // setCommentData({
-    //   lead: currentLead._id,
-    //   author: "",
-    //   commentText: ""
-    // });
+   await  dispatch(addComment({id:currentLead._id,data:commentData})).unwrap()
+    setCommentData({
+      lead: currentLead._id,
+      author: "",
+      commentText: ""
+    });
+    dispatch(getLeadCommentById(currentLead._id))
    
   }
   // console.log(comments)
   
   useEffect(() =>{
     dispatch(getSaleAgents())
-    dispatch(getLeadCommentById(currentLead._id))
-  },[currentLead])
+  },[dispatch])
   return (
     <>
       <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white">
