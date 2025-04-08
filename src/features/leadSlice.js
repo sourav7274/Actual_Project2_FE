@@ -39,7 +39,6 @@ export const addComment = createAsyncThunk(
       data
     );
 
-    
     const result = await response.data;
     // console.log(result)
   }
