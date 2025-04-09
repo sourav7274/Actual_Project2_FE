@@ -6,6 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { leadStatuses, priority } from "../App";
 import { NewLead } from "../components/NewLead";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { getLeadById,getLeadCommentById } from "../features/leadSlice";
+
 
 const LeadList = () => {
   const dispatch = useDispatch();
@@ -61,7 +64,7 @@ const LeadList = () => {
   const handleStatusChange = (e) => {
     setFilter((pval) => ({ ...pval, status: e.target.value }));
   };
-  const hanldeAgantChange = (e) => {
+  const handleAgentChange = (e) => {
     setFilter((pval) => ({ ...pval, agents: e.target.value }));
   };
   const handlePriorityChange = (e) => {
@@ -128,7 +131,7 @@ const LeadList = () => {
                         Filter By Agents
                       </label>
                       <select
-                        onChange={hanldeAgantChange}
+                        onChange={handleAgentChange}
                         className="bg-gray-700 text-white w-full p-3 rounded-lg shadow-inner focus:ring-2 focus:ring-blue-400 transition"
                       >
                         <option value="all">All</option>
@@ -212,11 +215,18 @@ const LeadList = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.65 }}
                   className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
                   {filterData.map((lead) => (
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col gap-2 border border-gray-700 hover:border-gray-500 transition duration-300">
+                    <Link
+                      onClick={() => {
+                                          dispatch(getLeadById(lead._id)),
+                                            dispatch(getLeadCommentById(lead._id));
+                                        }}
+                                        to={`/leadManagement/${lead._id}`}
+                     >
+                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col gap-2 border border-gray-700 hover:border-gray-500 transition duration-300">
                       <h3 className="text-xl font-semibold text-white">
                         {lead.name}
                       </h3>
@@ -232,11 +242,13 @@ const LeadList = () => {
                         </span>{" "}
                         {lead.salesAgent.name}
                       </p>
-                      <p>{lead.status}</p>
+                      {/* <p>{lead.status}</p>
                       <p>{lead.salesAgent.name}</p>
                       <p>{lead.priority}</p>
-                      <p>{lead.timeToClose}</p>
+                      <p>{lead.timeToClose}</p> */}
                     </div>
+                    </Link>
+                   
                   ))}
                 </motion.div>
               </section>

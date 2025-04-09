@@ -30,6 +30,13 @@ export const getLeadById = createAsyncThunk("get/IdLead", async (id) => {
   return result.leads;
 });
 
+export const updateLead = createAsyncThunk("update/lead",async ({id,data}) =>{
+  const response = await axios.put(`https://actaul-prpject-be.vercel.app/leadUpdate/${id}`,data)
+  const result = await response.data;
+  console.log(result)
+
+})
+
 export const addComment = createAsyncThunk(
   "add/comment",
   async ({ id, data }) => {
