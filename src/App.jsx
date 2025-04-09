@@ -71,21 +71,16 @@ function App() {
       <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white overflow-hidden">
         <SideBar />
         <motion.div
-          initial={{opacity:0}}
-          animate={{opacity:1}}
-          transition={{delay:0.25,duration:1}}
-        className="flex-1 p-6 bg-gray-800 rounded-lg shadow-md">
-          <p
-          
-            className="text-3xl font-semibold text-gray-100"
-          >
-            All Leads
-          </p>
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.25, duration: 1 }}
+          className="flex-1 p-6 bg-gray-800 rounded-lg shadow-md"
+        >
+          <p className="text-3xl font-semibold text-gray-100">All Leads</p>
           <div className="grid grid-cols-4 gap-4 mt-5">
             {leads.map((lead) => (
               <div key={lead._id} className="col-span-1">
-                <div  
-                >
+                <div>
                   <Link
                     onClick={() => {
                       dispatch(getLeadById(lead._id)),
@@ -159,10 +154,18 @@ function App() {
             {/* Right Side (Add New Lead) */}
             <div className="flex-1">
               <button
-                className="bg-gray-700 px-4 py-3 rounded hover:bg-gray-500 w-l"
+                className={`
+                  ${
+                    addLeadDIs
+                      ? "bg-red-500 hover:bg-red-700"
+                      : "bg-green-500 hover:bg-green-700"
+                  }
+                  text-white font-semibold transition duration-300
+                  px-4 py-3 rounded w-full
+                `}
                 onClick={() => setAddLead(!addLeadDIs)}
               >
-                Add New Lead
+                {addLeadDIs ? "Close" : "Add New Lead"}
               </button>
 
               {addLeadDIs && (

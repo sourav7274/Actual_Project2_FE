@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { leadStatuses,priority } from "../App";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getLeadById,getLeadCommentById } from "../features/leadSlice";
 
 const SalesAgent = () => {
     const {id} = useParams()
@@ -129,10 +131,20 @@ const SalesAgent = () => {
             <p className="text-3xl font-semibold">Leads:</p>
             <div className="mt-4 space-y-3">
               {agentLeads.map((lead) => (
-                <div key={lead.name} className="flex justify-between bg-gray-900 p-4 rounded-lg shadow-md">
+                <Link
+                className="flex justify-between bg-gray-900 p-4 rounded-lg shadow-md" onClick={
+                  () => {
+                    getLeadById(lead._id)
+                    getLeadCommentById(lead._id)
+                  }
+                } to={`/leadManagement/${lead._id}`
+                }>
+                   <div key={lead.name} >
                   <p className="text-lg font-semibold">{lead.name}</p>
                   <p className="text-gray-400">{lead.status}</p>
                 </div>
+                </Link>
+               
               ))}
             </div>
           </section>

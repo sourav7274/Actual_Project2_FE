@@ -7,8 +7,7 @@ import { leadStatuses, priority } from "../App";
 import { NewLead } from "../components/NewLead";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { getLeadById,getLeadCommentById } from "../features/leadSlice";
-
+import { getLeadById, getLeadCommentById } from "../features/leadSlice";
 
 const LeadList = () => {
   const dispatch = useDispatch();
@@ -192,9 +191,13 @@ const LeadList = () => {
                 <section className="my-6 flex flex-wrap gap-4">
                   <button
                     onClick={() => setAgentDis(!leadDis)}
-                    className="bg-green-500 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md transition transform hover:scale-105"
+                    className={`
+                      ${leadDis
+                        ? "bg-red-500 hover:bg-red-700":
+                          "bg-green-500 hover:bg-green-700"}
+                     text-white px-6 py-3 rounded-lg shadow-md transition transform hover:scale-105`}
                   >
-                    Add New Lead
+                    {leadDis ? "Close Lead" : "Add New Lead"}
                   </button>
 
                   <button
@@ -205,7 +208,11 @@ const LeadList = () => {
                   </button>
                 </section>
 
-                {leadDis && <NewLead />}
+                {leadDis && (
+                  <>
+                    <NewLead />
+                  </>
+                )}
               </section>
 
               {/* Lead List Section */}
@@ -221,34 +228,33 @@ const LeadList = () => {
                   {filterData.map((lead) => (
                     <Link
                       onClick={() => {
-                                          dispatch(getLeadById(lead._id)),
-                                            dispatch(getLeadCommentById(lead._id));
-                                        }}
-                                        to={`/leadManagement/${lead._id}`}
-                     >
-                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col gap-2 border border-gray-700 hover:border-gray-500 transition duration-300">
-                      <h3 className="text-xl font-semibold text-white">
-                        {lead.name}
-                      </h3>
-                      <p className="text-sm text-gray-400">
-                        <span className="font-medium text-gray-300">
-                          Status:
-                        </span>{" "}
-                        {lead.status}
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        <span className="font-medium text-gray-300">
-                          Agent:
-                        </span>{" "}
-                        {lead.salesAgent.name}
-                      </p>
-                      {/* <p>{lead.status}</p>
+                        dispatch(getLeadById(lead._id)),
+                          dispatch(getLeadCommentById(lead._id));
+                      }}
+                      to={`/leadManagement/${lead._id}`}
+                    >
+                      <div className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col gap-2 border border-gray-700 hover:border-gray-500 transition duration-300">
+                        <h3 className="text-xl font-semibold text-white">
+                          {lead.name}
+                        </h3>
+                        <p className="text-sm text-gray-400">
+                          <span className="font-medium text-gray-300">
+                            Status:
+                          </span>{" "}
+                          {lead.status}
+                        </p>
+                        <p className="text-sm text-gray-400">
+                          <span className="font-medium text-gray-300">
+                            Agent:
+                          </span>{" "}
+                          {lead.salesAgent.name}
+                        </p>
+                        {/* <p>{lead.status}</p>
                       <p>{lead.salesAgent.name}</p>
                       <p>{lead.priority}</p>
                       <p>{lead.timeToClose}</p> */}
-                    </div>
+                      </div>
                     </Link>
-                   
                   ))}
                 </motion.div>
               </section>
