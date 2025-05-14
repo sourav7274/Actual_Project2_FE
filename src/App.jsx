@@ -29,6 +29,52 @@ export const leadStatuses = [
 ];
 export const priority = ["High", "Medium", "Low"];
 
+const mainVariant = {
+  initial: {
+    opacity: 0,
+  },
+  final: {
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+      duration: 1,
+    },
+  },
+};
+
+const newLeadVariant = {
+  initial: {
+    opacity: 0,
+    x: "100vh",
+  },
+  final: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      stiffness: 50,
+    },
+  },
+};
+
+const buttonVariant = {
+  initial: {
+    borderRadius: "0%",
+  },
+  final: {
+    borderRadius: "10%",
+    transition: {
+      duration: 1.4,
+    },
+  },
+  hover: {
+    scale: 1.1,
+  },
+  tap: {
+    scale: 1,
+  },
+};
+
 function App() {
   const dispatch = useDispatch();
   const { leads } = useSelector((state) => state.leads);
@@ -71,9 +117,9 @@ function App() {
       <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white overflow-hidden">
         <SideBar />
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.25, duration: 1 }}
+          variants={mainVariant}
+          initial="initial"
+          animate="final"
           className="flex-1 p-6 bg-gray-800 rounded-lg shadow-md"
         >
           <p className="text-3xl font-semibold text-gray-100">All Leads</p>
@@ -153,7 +199,12 @@ function App() {
 
             {/* Right Side (Add New Lead) */}
             <div className="flex-1">
-              <button
+              <motion.button
+                variants={buttonVariant}
+                initial="initial"
+                animate="final"
+                whileHover="hover"
+                whileTap="tap"
                 className={`
                   ${
                     addLeadDIs
@@ -161,17 +212,22 @@ function App() {
                       : "bg-green-500 hover:bg-green-700"
                   }
                   text-white font-semibold transition duration-300
-                  px-4 py-3 rounded w-full
+                  px-4 py-3 w-full max-w-50
                 `}
                 onClick={() => setAddLead(!addLeadDIs)}
               >
                 {addLeadDIs ? "Close" : "Add New Lead"}
-              </button>
+              </motion.button>
 
               {addLeadDIs && (
-                <div className="mt-4 p-6 bg-gray-800 rounded-lg shadow-md">
+                <motion.div
+                  variants={newLeadVariant}
+                  initial="initial"
+                  animate="final"
+                  className="mt-4 p-6 bg-gray-800 rounded-lg shadow-md"
+                >
                   <NewLead />
-                </div>
+                </motion.div>
               )}
             </div>
           </div>
