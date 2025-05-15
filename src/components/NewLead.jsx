@@ -45,10 +45,10 @@ export const NewLead = () => {
 
   useEffect(() => {
     dispatch(getSaleAgents());
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     dispatch(getTags());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
