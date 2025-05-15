@@ -52,19 +52,18 @@ const newLeadVariant = {
     x: 0,
     transition: {
       type: "spring",
-      stiffness: 50,
+      stiffness: 85,
     },
   },
 };
 
 const buttonVariant = {
   initial: {
-    borderRadius: "0%",
+    scale: 1,
   },
   final: {
-    borderRadius: "10%",
     transition: {
-      duration: 1.4,
+      duration: 1,
     },
   },
   hover: {
@@ -114,7 +113,7 @@ function App() {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen flex text-white overflow-hidden">
+      <div className="bg-gradient-to-r from-gray-900 to-gray-700 min-h-screen w-[100%] flex text-white overflow-hidden">
         <SideBar />
         <motion.div
           variants={mainVariant}
@@ -141,14 +140,12 @@ function App() {
               </div>
             ))}
           </div>
-          <div className="flex gap-6 mt-9">
-            {/* Left Sidebar (Lead Status + Filters) */}
-            <div className="w-[320px] flex flex-col gap-6">
-              <section className="p-5 bg-gray-800 rounded-lg shadow-md text-white">
-                <p className="text-xl font-semibold border-b border-gray-700 pb-2">
-                  Lead Status
-                </p>
-                <ul className="mt-3 space-y-2">
+          <div className="w-full mt-9">
+            <div className="grid grid-cols-3">
+              {/* Lead Status Section */}
+              <section className="p-5 rounded-lg col-span-1  text-white">
+                <p className="text-xl font-semibold pb-2">Lead Status</p>
+                <ul className="mt-3 space-y-2 max-w-[60%]">
                   {["New", "Contacted", "Qualified"].map((status) => (
                     <li
                       key={status}
@@ -161,74 +158,87 @@ function App() {
                     </li>
                   ))}
                 </ul>
-              </section>
-
-              <section className="p-5 bg-gray-800 rounded-lg shadow-md text-white">
-                <p className="text-2xl font-semibold mb-3">Quick Filters</p>
-                <div className="flex gap-3">
-                  {["New", "Contacted"].map((status) => (
-                    <button
-                      key={status}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition"
-                      onClick={() => handleFilter(status)}
-                    >
-                      {status}
-                    </button>
-                  ))}
-                  <button
-                    onClick={() => setFilter([])}
-                    className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-700 text-white transition"
-                  >
-                    Reset
-                  </button>
-                </div>
-                {filterData.length > 0 && (
-                  <div className="mt-4 bg-gray-700 p-4 rounded-lg">
-                    {filterData.map((lead) => (
-                      <div
-                        key={lead.id}
-                        className="p-2 border-b border-gray-600 last:border-0"
+                <section className="p-5 bg-gray-800 rounded-lg shadow-md text-white mt-6">
+                  <p className="text-2xl font-semibold mb-3">Quick Filters</p>
+                  <div className="flex gap-3">
+                    {["New", "Contacted"].map((status) => (
+                      <button
+                        key={status}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white transition"
+                        onClick={() => handleFilter(status)}
                       >
-                        {lead.name}
-                      </div>
+                        {status}
+                      </button>
                     ))}
+                    <button
+                      onClick={() => setFilter([])}
+                      className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-700 text-white transition"
+                    >
+                      Reset
+                    </button>
                   </div>
-                )}
+
+                  {filterData.length > 0 && (
+                    <div className="mt-4 bg-gray-700 p-4 rounded-lg">
+                      {filterData.map((lead) => (
+                        <div
+                          key={lead.id}
+                          className="p-2 bg-gray-600 rounded-md mb-2 last:mb-0"
+                        >
+                          {lead.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </section>
               </section>
-            </div>
 
-            {/* Right Side (Add New Lead) */}
-            <div className="flex-1">
-              <motion.button
-                variants={buttonVariant}
-                initial="initial"
-                animate="final"
-                whileHover="hover"
-                whileTap="tap"
-                className={`
-                  ${
-                    addLeadDIs
-                      ? "bg-red-500 hover:bg-red-700"
-                      : "bg-green-500 hover:bg-green-700"
-                  }
-                  text-white font-semibold transition duration-300
-                  px-4 py-3 w-full max-w-50
-                `}
-                onClick={() => setAddLead(!addLeadDIs)}
-              >
-                {addLeadDIs ? "Close" : "Add New Lead"}
-              </motion.button>
-
-              {addLeadDIs && (
-                <motion.div
-                  variants={newLeadVariant}
+              {/* Right Side: Add New Lead + Quick Filters */}
+              <div className="col-span-2 ">
+                {/* Add/Close New Lead Button */}
+                <motion.button
+                  variants={buttonVariant}
                   initial="initial"
                   animate="final"
-                  className="mt-4 p-6 bg-gray-800 rounded-lg shadow-md"
+                  whileHover="hover"
+                  whileTap="tap"
+                  className={`${
+                    addLeadDIs
+                      ? "bg-gray-200 hover:bg-gray-500"
+                      : "bg-gray-600 hover:bg-gray-300 hover:text-gray-800"
+                  } text-white font-semibold rounded-lg px-4 py-2 max-w-40`}
+                  onClick={() => setAddLead(!addLeadDIs)}
                 >
-                  <NewLead />
-                </motion.div>
-              )}
+                  {addLeadDIs ? (
+                    <img
+                      className="h-[20px] me-2"
+                      src="https://www.svgrepo.com/show/453311/cancel.svg"
+                      alt="cancel-icon"
+                    />
+                  ) : (
+                    <div className="flex align-middle ">
+                      <img
+                        className="h-[20px] me-2"
+                        src="https://www.svgrepo.com/show/378677/person-add.svg"
+                        alt="create-icon"
+                      />{" "}
+                      Create Lead
+                    </div>
+                  )}
+                </motion.button>
+
+                {/* New Lead Form */}
+                {addLeadDIs && (
+                  <motion.div
+                    variants={newLeadVariant}
+                    initial="initial"
+                    animate="final"
+                    className="mt-4 py-6 bg-transparent"
+                  >
+                    <NewLead />
+                  </motion.div>
+                )}
+              </div>
             </div>
           </div>
         </motion.div>
